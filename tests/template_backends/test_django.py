@@ -195,6 +195,18 @@ class DjangoTemplatesTests(TemplateStringsTests):
                         )
                     ],
                 )
+            with self.subTest(DEBUG=debug), self.settings(DEBUG=debug):
+                engine = DjangoTemplates(
+                    {"DIRS": [], "APP_DIRS": True, "NAME": "django", "OPTIONS": {"loaders": ['django.template.loaders.filesystem.Loader',
+                        'django.template.loaders.app_directories.Loader']}}
+                )
+                self.assertEqual(
+                    engine.engine.loaders,
+                    [
+                        'django.template.loaders.filesystem.Loader',
+                        'django.template.loaders.app_directories.Loader',
+                    ],
+                )
 
     def test_dirs_pathlib(self):
         engine = DjangoTemplates(
